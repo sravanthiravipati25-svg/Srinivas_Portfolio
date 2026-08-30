@@ -1,0 +1,323 @@
+@model Portfolio.Models.HomeViewModel
+@{
+    var content = Model.Content;
+    var person = content.Person;
+    ViewData["Title"] = content.Site.Title;
+    ViewData["Description"] = content.Site.Description;
+    ViewData["ThemeColor"] = content.Site.ThemeColor;
+    var whatsappUrl = "https://wa.me/" + person.PhoneE164 + "?text=" + Uri.EscapeDataString(person.WhatsappMessage);
+}
+
+<section id="home" class="hero-section">
+    <div class="hero-grid"></div>
+    <div class="container position-relative">
+        <div class="row align-items-center min-vh-100 py-5">
+            <div class="col-lg-8 pt-5 reveal">
+                <div class="eyebrow"><span class="status-dot"></span> @content.Hero.Eyebrow</div>
+                <div class="terminal-label">SQL_SERVER_DEVELOPER.exe</div>
+                <h1>@person.FirstName <span>@person.LastName</span></h1>
+                <p class="hero-role">@person.RoleLine</p>
+                <p class="hero-summary">@Html.Raw(content.Hero.Summary)</p>
+
+                <div class="hero-actions">
+                    <a href="@whatsappUrl" target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
+                        <i class="bi bi-whatsapp"></i> WhatsApp Me
+                    </a>
+                    <a href="mailto:@person.Email" class="btn btn-primary-custom btn-lg">
+                        <i class="bi bi-envelope"></i> Email Me
+                    </a>
+                    <a href="@person.ResumeUrl" target="_blank" class="btn btn-ghost btn-lg">
+                        <i class="bi bi-download"></i> View Resume
+                    </a>
+                </div>
+
+                <div class="contact-strip">
+                    <span><i class="bi bi-telephone"></i> @person.PhoneDisplay</span>
+                    <span><i class="bi bi-envelope"></i> @person.Email</span>
+                    <span><i class="bi bi-geo-alt"></i> @person.Location</span>
+                </div>
+            </div>
+
+            <div class="col-lg-4 pt-5 mt-4 mt-lg-0 reveal">
+                <div class="profile-terminal">
+                    <div class="terminal-top">
+                        <span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span>
+                        <span class="ms-auto terminal-title">@content.Hero.TerminalTitle</span>
+                    </div>
+                    <div class="terminal-body">
+<pre><span class="sql-key">SELECT</span>
+    <span class="sql-name">'@person.FullName'</span> <span class="sql-key">AS</span> Developer,
+    <span class="sql-name">'@(person.YearsExperience) Years'</span> <span class="sql-key">AS</span> Experience,
+    <span class="sql-name">'SQL Server'</span> <span class="sql-key">AS</span> PrimaryStack,
+    <span class="sql-name">'Azure Data Services'</span> <span class="sql-key">AS</span> CloudStack
+<span class="sql-key">FROM</span> CareerProfile
+<span class="sql-key">WHERE</span> Availability = <span class="sql-name">'Open'</span>;</pre>
+                        <div class="query-result">
+                            <span>&#10003; Query executed successfully</span>
+                            <strong>@content.Hero.TerminalResult</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid mt-3">
+                    @foreach (var stat in content.Hero.Stats)
+                    {
+                        <div><strong>@stat.Value</strong><small>@stat.Label</small></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="section section-light">
+    <div class="container">
+        <div class="section-heading reveal">
+            <span class="section-kicker">@content.About.Kicker</span>
+            <h2>@Html.Raw(content.About.Heading)</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-7 reveal">
+                <div class="content-card about-card">
+                    <p class="lead-text">@content.About.LeadText</p>
+                    <div class="focus-list">
+                        @foreach (var area in content.About.FocusAreas)
+                        {
+                            <div>
+                                <i class="bi @area.Icon"></i>
+                                <span><b>@area.Title</b><small>@area.Description</small></span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 reveal">
+                <div class="content-card highlight-card">
+                    <span class="mini-label">@content.About.Highlight.Label</span>
+                    <h3>@content.About.Highlight.Heading</h3>
+                    <p>@content.About.Highlight.Description</p>
+                    <div class="mini-metrics">
+                        @foreach (var metric in content.About.Highlight.Metrics)
+                        {
+                            <div><strong>@metric.Label</strong><span>@metric.Value</span></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="experience" class="section section-navy">
+    <div class="container">
+
+        <div class="section-heading light reveal">
+            <span class="section-kicker">@content.Experience.Kicker</span>
+            <h2>@content.Experience.Heading</h2>
+            <p class="section-subtitle">@content.Experience.Subtitle</p>
+        </div>
+
+        <div class="experience-timeline">
+            @foreach (var role in content.Experience.Roles)
+            {
+                var isChetu = role.Accent == "chetu";
+                var dotClass = isChetu ? "timeline-dot chetu-dot" : "timeline-dot";
+                var tagClass = isChetu ? "company-tag chetu-tag" : "company-tag";
+                var dateClass = isChetu ? "date-pill chetu-date" : "date-pill";
+                var iconClass = isChetu ? "responsibility-icon chetu-icon" : "responsibility-icon";
+                <article class="experience-card reveal">
+
+                    <div class="@dotClass"></div>
+
+                    <div class="experience-header">
+                        <div class="experience-company">
+                            <span class="@tagClass">@role.Company</span>
+                            <h3>@role.Title</h3>
+                            <p class="experience-client">
+                                <i class="bi @role.ClientIcon"></i>
+                                @role.ClientLabel
+                            </p>
+                        </div>
+
+                        <div class="@dateClass">
+                            <i class="bi bi-calendar3"></i>
+                            <span>@role.DateRange</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-environment">
+                        <div class="environment-title">
+                            <i class="bi bi-server"></i>
+                            <span>Environment</span>
+                        </div>
+                        <div class="environment-tags">
+                            @foreach (var tech in role.Environment)
+                            {
+                                <span>@tech</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="responsibility-grid">
+                        @foreach (var item in role.Responsibilities)
+                        {
+                            <div class="responsibility-item">
+                                <div class="@iconClass">
+                                    <i class="bi @item.Icon"></i>
+                                </div>
+                                <div>
+                                    <h4>@item.Title</h4>
+                                    <p>@item.Description</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </article>
+            }
+        </div>
+
+    </div>
+</section>
+
+<section id="expertise" class="section section-light">
+    <div class="container">
+        <div class="section-heading reveal">
+            <span class="section-kicker">@content.Expertise.Kicker</span>
+            <h2>@Html.Raw(content.Expertise.Heading)</h2>
+            <p>@content.Expertise.Subtitle</p>
+        </div>
+        <div class="row g-3">
+            @foreach (var skill in content.Expertise.Skills)
+            {
+                <div class="col-md-6 col-lg-4 reveal">
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="bi @skill.Icon"></i></div>
+                        <h3>@skill.Title</h3>
+                        <p>@skill.Description</p>
+                        <div class="tags">
+                            @foreach (var tag in skill.Tags)
+                            {
+                                <span>@tag</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section id="azure" class="section section-navy">
+    <div class="container">
+        <div class="section-heading light reveal">
+            <span class="section-kicker">@content.DataPlatform.Kicker</span>
+            <h2>@Html.Raw(content.DataPlatform.Heading)</h2>
+        </div>
+        <div class="data-flow reveal">
+            @for (var i = 0; i < content.DataPlatform.Flow.Count; i++)
+            {
+                var node = content.DataPlatform.Flow[i];
+                <div class="flow-node"><i class="bi @node.Icon"></i><b>@node.Title</b><small>@node.Subtitle</small></div>
+                if (i < content.DataPlatform.Flow.Count - 1)
+                {
+                    <div class="flow-arrow"><i class="bi bi-arrow-right"></i></div>
+                }
+            }
+        </div>
+        <div class="row g-4 mt-2">
+            @foreach (var card in content.DataPlatform.Cards)
+            {
+                <div class="col-lg-4 reveal">
+                    <div class="dark-mini-card">
+                        <span>@card.Number</span>
+                        <h3>@card.Title</h3>
+                        <p>@card.Description</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section id="education" class="section section-light">
+    <div class="container">
+        <div class="section-heading reveal">
+            <span class="section-kicker">@content.Education.Kicker</span>
+            <h2>@Html.Raw(content.Education.Heading)</h2>
+        </div>
+        <div class="row g-4">
+            @foreach (var item in content.Education.Items)
+            {
+                <div class="col-lg-6 reveal">
+                    <div class="education-card">
+                        <i class="bi @item.Icon"></i>
+                        <div>
+                            <span class="mini-label">@item.Label</span>
+                            <h3>@item.Title</h3>
+                            <p>@item.Description</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact-section">
+    <div class="container">
+        <div class="contact-card reveal">
+            <div class="contact-copy">
+                <span class="section-kicker">@content.Contact.Kicker</span>
+                <h2>@Html.Raw(content.Contact.Heading)</h2>
+                <p>@content.Contact.Subtitle</p>
+
+                @if (TempData["Success"] is string successMessage)
+                {
+                    <div class="form-alert form-alert-success" role="status">
+                        <i class="bi bi-check-circle"></i> @successMessage
+                    </div>
+                }
+                @if (TempData["Error"] is string errorMessage)
+                {
+                    <div class="form-alert form-alert-error" role="alert">
+                        <i class="bi bi-exclamation-circle"></i> @errorMessage
+                    </div>
+                }
+
+                <form class="contact-form" asp-controller="Home" asp-action="Contact" method="post">
+                    <div class="form-field">
+                        <label asp-for="ContactForm.Name">Name</label>
+                        <input asp-for="ContactForm.Name" class="form-input" placeholder="Your name" autocomplete="name" required />
+                        <span asp-validation-for="ContactForm.Name" class="form-error"></span>
+                    </div>
+                    <div class="form-field">
+                        <label asp-for="ContactForm.Email">Email</label>
+                        <input asp-for="ContactForm.Email" class="form-input" placeholder="you@example.com" autocomplete="email" required />
+                        <span asp-validation-for="ContactForm.Email" class="form-error"></span>
+                    </div>
+                    <div class="form-field">
+                        <label asp-for="ContactForm.Message">Message</label>
+                        <textarea asp-for="ContactForm.Message" class="form-input form-textarea" rows="4" placeholder="Tell me about the opportunity or project..." required minlength="10"></textarea>
+                        <span asp-validation-for="ContactForm.Message" class="form-error"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary-custom btn-lg form-submit">
+                        <i class="bi bi-send"></i> Send Message
+                    </button>
+                </form>
+            </div>
+
+            <div class="contact-actions">
+                <a class="contact-action whatsapp" href="@whatsappUrl" target="_blank" rel="noopener">
+                    <i class="bi bi-whatsapp"></i><span><small>MESSAGE ON</small><b>WhatsApp</b></span><i class="bi bi-arrow-up-right"></i>
+                </a>
+                <a class="contact-action email" href="mailto:@person.Email">
+                    <i class="bi bi-envelope"></i><span><small>EMAIL ME</small><b>@person.Email</b></span><i class="bi bi-arrow-up-right"></i>
+                </a>
+                <a class="contact-action phone" href="tel:+@person.PhoneE164">
+                    <i class="bi bi-telephone"></i><span><small>CALL</small><b>@person.PhoneDisplay</b></span><i class="bi bi-arrow-up-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

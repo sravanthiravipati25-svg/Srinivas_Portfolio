@@ -1,0 +1,138 @@
+@{
+    // The layout is shared by every page, so it reads the same portfolio
+    // content (nav links, person info, footer) that the page's own model
+    // already carries -- nothing here is hardcoded.
+    Portfolio.Models.PortfolioContent? content = Model is Portfolio.Models.HomeViewModel homeModel ? homeModel.Content : null;
+    var person = content?.Person;
+    var navLinks = content?.NavLinks ?? new List<Portfolio.Models.NavLink>();
+    var footer = content?.Footer;
+
+    var pageDescription = ViewData["Description"] as string
+        ?? content?.Site.Description
+        ?? "SQL Server Developer portfolio.";
+    var themeColor = ViewData["ThemeColor"] as string
+        ?? content?.Site.ThemeColor
+        ?? "#0b1220";
+    var whatsappUrl = person is not null
+        ? "https://wa.me/" + person.PhoneE164 + "?text=" + Uri.EscapeDataString(person.WhatsappMessage)
+        : "#";
+    var displayName = person?.FullName ?? "Portfolio";
+    var footerTagline = footer?.Tagline ?? "SQL Server Developer";
+    var copyrightYear = footer?.CopyrightYear ?? DateTime.UtcNow.Year.ToString();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="@pageDescription" />
+    <meta name="theme-color" content="@themeColor" />
+    <title>@ViewData["Title"]</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top site-nav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="~/#home">
+                <span class="brand-mark">@(person?.Initials ?? "SR")</span>
+                <span>@(person?.FullName ?? "Portfolio")</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                    aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                    @foreach (var link in navLinks)
+                    {
+                        <li class="nav-item"><a class="nav-link" href="@link.Href">@link.Label</a></li>
+                    }
+                    @if (person is not null)
+                    {
+                        <li class="nav-item ms-lg-2">
+                            <a class="btn btn-outline-light btn-sm nav-resume" href="@person.ResumeUrl" target="_blank">
+                                <i class="bi bi-file-earmark-pdf me-1"></i> Resume
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="container py-4">
+            <div class="row align-items-center g-3">
+                <div class="col-md-7">
+                    <div class="fw-bold text-white">@displayName</div>
+                    <div class="footer-muted">@footerTagline</div>
+                </div>
+                <div class="col-md-5 text-md-end">
+                    @if (person is not null)
+                    {
+                        <a class="footer-link me-3" href="mailto:@person.Email"><i class="bi bi-envelope me-1"></i>Email</a>
+                        <a class="footer-link" href="@whatsappUrl" target="_blank" rel="noopener"><i class="bi bi-whatsapp me-1"></i>WhatsApp</a>
+                    }
+                </div>
+            </div>
+            <hr class="footer-line" />
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-2 footer-muted small">
+                <span>&copy; @copyrightYear @displayName. All rights reserved.</span>
+                <span>Built with ASP.NET Core 8</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const nav = document.querySelector(".site-nav");
+            window.addEventListener("scroll", () => nav.classList.toggle("scrolled", window.scrollY > 20));
+
+            document.querySelectorAll("#mainNav .nav-link").forEach(link => {
+                link.addEventListener("click", () => {
+                    const collapse = document.getElementById("mainNav");
+                    if (window.innerWidth < 992 && collapse.classList.contains("show")) {
+                        bootstrap.Collapse.getOrCreateInstance(collapse).hide();
+                    }
+                });
+            });
+
+            const sections = document.querySelectorAll("main section[id]");
+            const navLinks = document.querySelectorAll("#mainNav .nav-link");
+            const setActive = () => {
+                let currentId = sections[0]?.id;
+                sections.forEach(section => {
+                    if (window.scrollY >= section.offsetTop - 120) {
+                        currentId = section.id;
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.toggle("active", link.getAttribute("href") === "#" + currentId);
+                });
+            };
+            window.addEventListener("scroll", setActive);
+            setActive();
+
+            const reveal = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add("visible");
+                });
+            }, { threshold: 0.12 });
+
+            document.querySelectorAll(".reveal").forEach(el => reveal.observe(el));
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

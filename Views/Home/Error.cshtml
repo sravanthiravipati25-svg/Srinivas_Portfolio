@@ -1,0 +1,26 @@
+@model Portfolio.Models.ErrorViewModel
+@{
+    ViewData["Title"] = "Something went wrong";
+}
+
+<section class="error-section">
+    <div class="container text-center">
+        <div class="terminal-label">ERROR.exe</div>
+        <h1>Something went <span>wrong</span></h1>
+        <p class="hero-summary mx-auto">
+            Sorry about that &mdash; an unexpected error occurred while loading this page.
+            Please try again, or reach out directly if the problem continues.
+        </p>
+
+        @if (Model.ShowRequestId)
+        {
+            <p class="error-request-id">Request ID: <code>@Model.RequestId</code></p>
+        }
+
+        <div class="hero-actions justify-content-center">
+            <a href="~/" class="btn btn-primary-custom btn-lg">
+                <i class="bi bi-house"></i> Back to home
+            </a>
+        </div>
+    </div>
+</section>

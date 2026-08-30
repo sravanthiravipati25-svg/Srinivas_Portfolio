@@ -1,0 +1,145 @@
+{
+  "site": {
+    "title": "S Srinivas Rao | SQL Server Developer",
+    "description": "S Srinivas Rao - SQL Server Developer and Data Integration professional with 3+ years of experience in SQL Server, T-SQL, SSIS, SSRS, Power BI and Azure Data Services.",
+    "themeColor": "#0b1220"
+  },
+  "person": {
+    "fullName": "S Srinivas Rao",
+    "firstName": "S Srinivas",
+    "lastName": "Rao",
+    "initials": "SR",
+    "roleLine": "SQL Server Developer | Data Integration | Azure Data Services",
+    "phoneDisplay": "+91 79953 98242",
+    "phoneE164": "917995398242",
+    "email": "svsrinivasarao2001@gmail.com",
+    "location": "Noida, India",
+    "resumeUrl": "/resume/S_Srinivas_Rao_SQL_Server_Developer_Resume.pdf",
+    "yearsExperience": "3+",
+    "whatsappMessage": "Hello Srinivas Rao, I came across your portfolio and would like to discuss a SQL Server Developer opportunity."
+  },
+  "navLinks": [
+    { "href": "#about", "label": "About" },
+    { "href": "#experience", "label": "Experience" },
+    { "href": "#expertise", "label": "Expertise" },
+    { "href": "#azure", "label": "Azure & BI" },
+    { "href": "#education", "label": "Education" },
+    { "href": "#contact", "label": "Contact" }
+  ],
+  "hero": {
+    "eyebrow": "Open to SQL Server / Data Engineering opportunities",
+    "summary": "Results-driven SQL Server Developer with <strong>3+ years of experience</strong> across production environments, specializing in <strong>MS SQL Server, T-SQL, SSIS, SSRS, Power BI, Azure SQL, Azure Data Factory</strong> and performance engineering.",
+    "terminalTitle": "profile.sql",
+    "terminalResult": "Production-ready data solutions",
+    "stats": [
+      { "value": "3+", "label": "Years" },
+      { "value": "24x7", "label": "Support" },
+      { "value": "SQL", "label": "Core" },
+      { "value": "Azure", "label": "Cloud" }
+    ]
+  },
+  "about": {
+    "kicker": "01 / Profile",
+    "heading": "Database engineering with a <span>performance-first</span> mindset.",
+    "leadText": "I design, optimize and maintain database solutions that support enterprise applications and analytics. My work spans complex T-SQL programming, query optimization, ETL, reporting, cloud data services and production support.",
+    "focusAreas": [
+      { "icon": "bi-database-check", "title": "SQL Engineering", "description": "Stored procedures, views, functions, triggers, joins, transactions and dynamic SQL." },
+      { "icon": "bi-speedometer2", "title": "Performance Tuning", "description": "Execution plans, indexing, fragmentation analysis, DMVs, DBCC, blocking and deadlock troubleshooting." },
+      { "icon": "bi-diagram-3", "title": "Data Integration", "description": "SSIS and Azure Data Factory pipelines across SQL Server, Azure SQL and Azure Storage." },
+      { "icon": "bi-bar-chart-line", "title": "Analytics & Reporting", "description": "SSRS and Power BI dashboards, DAX measures, refresh schedules and governance." }
+    ],
+    "highlight": {
+      "label": "Core Value",
+      "heading": "Reliable data. Faster queries. Clearer insights.",
+      "description": "Experienced in production troubleshooting, database maintenance, ETL automation and enterprise reporting with strong documentation and communication.",
+      "metrics": [
+        { "label": "T-SQL", "value": "Advanced" },
+        { "label": "SSIS", "value": "ETL" },
+        { "label": "SSRS", "value": "Reporting" },
+        { "label": "Power BI", "value": "Analytics" }
+      ]
+    }
+  },
+  "experience": {
+    "kicker": "02 / Experience",
+    "heading": "Professional Experience",
+    "subtitle": "SQL development, database engineering, ETL, performance optimization and production support across enterprise environments.",
+    "roles": [
+      {
+        "accent": "chetu",
+        "company": "CHETU INC",
+        "title": "SQL Developer",
+        "clientLabel": "Noida, India",
+        "clientIcon": "bi-geo-alt",
+        "dateRange": "July 2026 - Present",
+        "environment": ["SQL Server", "T-SQL", "SSIS", "SSRS", "Azure SQL Database", "Power BI"],
+        "responsibilities": [
+          { "icon": "bi-database", "title": "Database Development", "description": "Designed and developed databases, tables, indexes, views, stored procedures and user-defined functions using SQL Server and T-SQL." },
+          { "icon": "bi-arrow-repeat", "title": "ETL & Reporting", "description": "Developed SSIS packages and SSRS reports while maintaining data pipelines to support accurate and reliable business reporting." },
+          { "icon": "bi-speedometer2", "title": "Optimization & Tuning", "description": "Performed SQL query optimization, index tuning and statistics maintenance while troubleshooting database performance bottlenecks." },
+          { "icon": "bi-shield-check", "title": "Security & Maintenance", "description": "Managed database security, user roles and permissions, backups, restores and regular SQL Server database maintenance activities." }
+        ]
+      },
+      {
+        "accent": "default",
+        "company": "ZENSAR",
+        "title": "SQL Server Developer",
+        "clientLabel": "Client: TELUS Healthcare, USA",
+        "clientIcon": "bi-building",
+        "dateRange": "Mar 2023 - June 2026",
+        "environment": ["SQL Server 2022", "SQL Server 2019", "SQL Server 2017", "SQL Server 2014", "Azure Managed Instance"],
+        "responsibilities": [
+          { "icon": "bi-code-square", "title": "T-SQL Development", "description": "Developed complex joins, views, stored procedures, functions and triggers; used table variables and transaction/error handling." },
+          { "icon": "bi-arrow-repeat", "title": "ETL & Data Integration", "description": "Designed and automated ETL pipelines integrating SQL Server, Azure SQL Database and Azure Storage into enterprise data warehouses." },
+          { "icon": "bi-graph-up-arrow", "title": "Performance Engineering", "description": "Worked on query slowness, blocking, disk-space issues, index maintenance, statistics updates and database integrity checks." },
+          { "icon": "bi-headset", "title": "Production Support", "description": "Provided 24x7 on-call support, monitored priority tickets and resolved incidents to maintain business continuity." }
+        ]
+      }
+    ]
+  },
+  "expertise": {
+    "kicker": "03 / Expertise",
+    "heading": "SQL Server <span>toolkit</span>",
+    "subtitle": "Technologies and practices directly reflected in my professional experience.",
+    "skills": [
+      { "icon": "bi-database-fill", "title": "SQL Server", "description": "T-SQL, DDL/DML, Stored Procedures, Views, UDFs, Triggers, Dynamic SQL, TCL.", "tags": ["SQL Server", "Azure SQL", "MySQL"] },
+      { "icon": "bi-speedometer", "title": "Performance Tuning", "description": "Query optimization, execution plans, indexing, fragmentation, blocking and deadlocks.", "tags": ["DMVs", "DBCC", "SQL Profiler"] },
+      { "icon": "bi-boxes", "title": "SSIS & ETL", "description": "Enterprise data integration with Lookup, Merge, SCD and Derived Column transformations.", "tags": ["SSIS", "ADF", "ETL"] },
+      { "icon": "bi-file-earmark-bar-graph", "title": "SSRS & Reporting", "description": "Developed and published reports and delivered actionable information to business stakeholders.", "tags": ["SSRS", "Reports"] },
+      { "icon": "bi-bar-chart-fill", "title": "Power BI", "description": "Integrated SQL and Azure datasets, created DAX measures, managed refresh and security roles.", "tags": ["Power BI", "DAX", "Governance"] },
+      { "icon": "bi-cloud-check", "title": "Azure Data", "description": "Azure SQL Database, Azure Data Warehouse, Azure Storage, Azure Managed Instance and ADF.", "tags": ["Azure SQL", "ADF", "Storage"] }
+    ]
+  },
+  "dataPlatform": {
+    "kicker": "04 / Data Platform",
+    "heading": "From <span>source</span> to insight.",
+    "flow": [
+      { "icon": "bi-database", "title": "SQL Server", "subtitle": "Operational Data" },
+      { "icon": "bi-arrow-left-right", "title": "SSIS / ADF", "subtitle": "ETL & Transform" },
+      { "icon": "bi-cloud", "title": "Azure Data", "subtitle": "Cloud Storage" },
+      { "icon": "bi-bar-chart", "title": "Power BI", "subtitle": "Business Insight" }
+    ],
+    "cards": [
+      { "number": "01", "title": "Pipeline Automation", "description": "Scheduled and monitored ADF pipeline runs with logging, error handling and performance tuning." },
+      { "number": "02", "title": "Enterprise Reporting", "description": "Interactive dashboards, DAX measures, data refresh schedules and workspace governance." },
+      { "number": "03", "title": "Operations", "description": "Backups, restores, database maintenance, patching and migrations using PowerShell and dbatools." }
+    ]
+  },
+  "education": {
+    "kicker": "05 / Education",
+    "heading": "Education & <span>continuous learning</span>",
+    "items": [
+      { "icon": "bi-mortarboard-fill", "label": "Education", "title": "BTech", "description": "JNTUK University, Andhra Pradesh, India" },
+      { "icon": "bi-tools", "label": "Toolset", "title": "Production Operations", "description": "ServiceNow, Remedy, LiteSpeed, HP Service Manager, Tivoli, Visual Studio, PowerShell" }
+    ]
+  },
+  "contact": {
+    "kicker": "06 / Contact",
+    "heading": "Let's talk about your <span>data challenges.</span>",
+    "subtitle": "For SQL Server development, database performance, ETL, reporting or Azure data opportunities, feel free to reach out."
+  },
+  "footer": {
+    "tagline": "SQL Server Developer - Data Integration - Azure Data Services",
+    "copyrightYear": "2026"
+  }
+}
