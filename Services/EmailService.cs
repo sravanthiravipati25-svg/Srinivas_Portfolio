@@ -1,147 +1,187 @@
-using Microsoft.Extensions.Options;
+using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text.Json;
+using Microsoft.Extensions.Options;
+using Portfolio.Models;
 
-namespace Portfolio.Services;
-
-public class EmailService : IEmailService
+namespace Portfolio.Services
 {
-    private readonly EmailSettings _settings;
-    private readonly ILogger<EmailService> _logger;
-
-    public EmailService(
-        IOptions<EmailSettings> options,
-        ILogger<EmailService> logger)
+    public class EmailService : IEmailService
     {
-        _settings = options.Value;
-        _logger = logger;
-    }
-    public async Task SendAsync(
-    string name,
-    string email,
-    string message)
-    {
-        if (string.IsNullOrWhiteSpace(_settings.ApiKey))
+        private readonly HttpClient _httpClient;
+        private readonly EmailSettings _settings;
+        private readonly ILogger<EmailService> _logger;
+
+        public EmailService(
+            HttpClient httpClient,
+            IOptions<EmailSettings> options,
+            ILogger<EmailService> logger)
         {
-            _logger.LogError("Brevo API key is missing.");
-            throw new InvalidOperationException(
-                "Brevo API key is not configured."
-            );
+            _httpClient = httpClient;
+            _settings = options.Value;
+            _logger = logger;
         }
 
-        if (string.IsNullOrWhiteSpace(_settings.From))
+        public async Task SendAsync(
+            string name,
+            string email,
+            string message)
         {
-            _logger.LogError("Brevo sender email is missing.");
-            throw new InvalidOperationException(
-                "Brevo sender email is not configured."
-            );
-        }
-
-        if (string.IsNullOrWhiteSpace(_settings.To))
-        {
-            _logger.LogError("Brevo recipient email is missing.");
-            throw new InvalidOperationException(
-                "Brevo recipient email is not configured."
-            );
-        }
-
-        _logger.LogInformation(
-            "Brevo configuration: ApiKeyConfigured={Configured}, From={From}, To={To}",
-            !string.IsNullOrWhiteSpace(_settings.ApiKey),
-            _settings.From,
-            _settings.To
-        );
-
-        using var client = new HttpClient();
-
-        client.DefaultRequestHeaders.Add(
-            "api-key",
-            _settings.ApiKey
-        );
-
-        client.DefaultRequestHeaders.Add(
-            "accept",
-            "application/json"
-        );
-
-        var body = new
-        {
-            sender = new
+            if (string.IsNullOrWhiteSpace(_settings.ApiKey))
             {
-                name = "Portfolio Website",
-                email = _settings.From
-            },
+                _logger.LogError(
+                    "Brevo API key is missing.");
 
-            to = new[]
-            {
-            new
-            {
-                email = _settings.To
+                throw new InvalidOperationException(
+                    "Brevo API key is not configured.");
             }
-        },
 
-            replyTo = new
+            if (string.IsNullOrWhiteSpace(_settings.From))
             {
-                email = email
-            },
+                _logger.LogError(
+                    "Brevo sender email is missing.");
 
-            subject = $"New Portfolio Contact from {name}",
+                throw new InvalidOperationException(
+                    "Brevo sender email is not configured.");
+            }
 
-            htmlContent = $@"
-            <html>
-            <body>
-                <h2>New Portfolio Contact</h2>
+            if (string.IsNullOrWhiteSpace(_settings.To))
+            {
+                _logger.LogError(
+                    "Brevo recipient email is missing.");
 
-                <p>
-                    <strong>Name:</strong>
-                    {System.Net.WebUtility.HtmlEncode(name)}
-                </p>
+                throw new InvalidOperationException(
+                    "Brevo recipient email is not configured.");
+            }
 
-                <p>
-                    <strong>Email:</strong>
-                    {System.Net.WebUtility.HtmlEncode(email)}
-                </p>
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException(
+                    "Name is required.",
+                    nameof(name));
+            }
 
-                <hr />
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                throw new ArgumentException(
+                    "Email is required.",
+                    nameof(email));
+            }
 
-                <p>
-                    <strong>Message:</strong>
-                </p>
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                throw new ArgumentException(
+                    "Message is required.",
+                    nameof(message));
+            }
 
-                <p>
-                    {System.Net.WebUtility.HtmlEncode(message)
-                            .Replace(Environment.NewLine, "<br/>")}
-                </p>
-            </body>
-            </html>"
-        };
+            _logger.LogInformation(
+                "Brevo configuration: ApiKeyConfigured={Configured}, From={From}, To={To}",
+                !string.IsNullOrWhiteSpace(_settings.ApiKey),
+                _settings.From,
+                _settings.To);
 
-        _logger.LogInformation(
-            "Sending email via Brevo HTTP API..."
-        );
+            var emailBody = new
+            {
+                sender = new
+                {
+                    name = "Portfolio Website",
+                    email = _settings.From
+                },
 
-        var response = await client.PostAsJsonAsync(
-            "https://api.brevo.com/v3/smtp/email",
-            body
-        );
+                to = new[]
+                {
+                    new
+                    {
+                        email = _settings.To
+                    }
+                },
 
-        var responseText =
-            await response.Content.ReadAsStringAsync();
+                replyTo = new
+                {
+                    email = email,
+                    name = name
+                },
 
-        if (!response.IsSuccessStatusCode)
-        {
-            _logger.LogError(
-                "Brevo API failed: {Status} - {Body}",
-                response.StatusCode,
-                responseText
-            );
+                subject = $"New Portfolio Contact from {name}",
 
-            throw new Exception(
-                $"Brevo API failed: {responseText}"
-            );
+                htmlContent = $"""
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>New Portfolio Contact</title>
+                    </head>
+
+                    <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+
+                        <h2>New Portfolio Contact</h2>
+
+                        <p>
+                            <strong>Name:</strong>
+                            {WebUtility.HtmlEncode(name)}
+                        </p>
+
+                        <p>
+                            <strong>Email:</strong>
+                            {WebUtility.HtmlEncode(email)}
+                        </p>
+
+                        <hr />
+
+                        <p>
+                            <strong>Message:</strong>
+                        </p>
+
+                        <p>
+                            {WebUtility.HtmlEncode(message)
+                                .Replace("\r\n", "<br>")
+                                .Replace("\n", "<br>")}
+                        </p>
+
+                    </body>
+                    </html>
+                    """
+            };
+
+            using var request = new HttpRequestMessage(
+                HttpMethod.Post,
+                "https://api.brevo.com/v3/smtp/email");
+
+            request.Headers.Add(
+                "api-key",
+                _settings.ApiKey);
+
+            request.Headers.Accept.Add(
+                new MediaTypeWithQualityHeaderValue(
+                    "application/json"));
+
+            request.Content = JsonContent.Create(emailBody);
+
+            _logger.LogInformation(
+                "Sending email via Brevo HTTP API...");
+
+            using var response =
+                await _httpClient.SendAsync(request);
+
+            var responseText =
+                await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError(
+                    "Brevo API failed. StatusCode={StatusCode}, Response={Response}",
+                    (int)response.StatusCode,
+                    responseText);
+
+                throw new InvalidOperationException(
+                    $"Brevo API failed: {responseText}");
+            }
+
+            _logger.LogInformation(
+                "Email sent successfully via Brevo API. Response={Response}",
+                responseText);
         }
-
-        _logger.LogInformation(
-            "Email sent successfully via Brevo API."
-        );
     }
 }
