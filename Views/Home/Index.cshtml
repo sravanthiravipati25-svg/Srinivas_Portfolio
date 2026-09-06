@@ -1,4 +1,4 @@
-@model Portfolio.Models.HomeViewModel
+﻿@model Portfolio.Models.HomeViewModel
 @{
     var content = Model.Content;
     var person = content.Person;
@@ -6,68 +6,180 @@
     ViewData["Description"] = content.Site.Description;
     ViewData["ThemeColor"] = content.Site.ThemeColor;
     var whatsappUrl = "https://wa.me/" + person.PhoneE164 + "?text=" + Uri.EscapeDataString(person.WhatsappMessage);
+    var telUrl = "tel:" + person.PhoneE164;
 }
 
 <section id="home" class="hero-section">
+
     <div class="hero-grid"></div>
+
     <div class="container position-relative">
-        <div class="row align-items-center min-vh-100 py-5">
-            <div class="col-lg-8 pt-5 reveal">
-                <div class="eyebrow"><span class="status-dot"></span> @content.Hero.Eyebrow</div>
-                <div class="terminal-label">SQL_SERVER_DEVELOPER.exe</div>
-                <h1>@person.FirstName <span>@person.LastName</span></h1>
-                <p class="hero-role">@person.RoleLine</p>
-                <p class="hero-summary">@Html.Raw(content.Hero.Summary)</p>
+
+        <div class="row align-items-center hero-content">
+
+            <!-- LEFT -->
+            <div class="col-lg-7 reveal">
+
+                <div class="eyebrow">
+                    <span class="status-dot"></span>
+                    OPEN TO SQL SERVER / DATA ENGINEERING OPPORTUNITIES
+                </div>
+
+                <div class="terminal-label">
+                    SQL_SERVER_DEVELOPER.exe
+                </div>
+
+                <h1>
+                    S Srinivas <span>Rao</span>
+                </h1>
+
+                <p class="hero-role">
+                    SQL Server Developer
+                    <span>|</span>
+                    Data Integration
+                    <span>|</span>
+                    Azure Data Services
+                </p>
+
+                <p class="hero-summary">
+                    I build reliable, high-performance data systems
+                    that turn complex business data into actionable insights.
+                </p>
+
+                <div class="tech-line">
+                    SQL Server · T-SQL · SSIS · SSRS · Power BI ·
+                    Azure SQL · Azure Data Factory
+                </div>
 
                 <div class="hero-actions">
-                    <a href="@whatsappUrl" target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
-                        <i class="bi bi-whatsapp"></i> WhatsApp Me
-                    </a>
-                    <a href="mailto:@person.Email" class="btn btn-primary-custom btn-lg">
-                        <i class="bi bi-envelope"></i> Email Me
-                    </a>
-                    <a href="@person.ResumeUrl" target="_blank" class="btn btn-ghost btn-lg">
-                        <i class="bi bi-download"></i> View Resume
-                    </a>
-                </div>
 
-                <div class="contact-strip">
-                    <span><i class="bi bi-telephone"></i> @person.PhoneDisplay</span>
-                    <span><i class="bi bi-envelope"></i> @person.Email</span>
-                    <span><i class="bi bi-geo-alt"></i> @person.Location</span>
+                    <a href="mailto:@person.Email"
+                       class="btn btn-primary-custom btn-lg"
+                       aria-label="Email S Srinivas Rao">
+                        <i class="bi bi-envelope-fill"></i>
+                        Email Me
+                    </a>
+
+                    <a href="@telUrl"
+                       class="btn btn-call btn-lg"
+                       aria-label="Call S Srinivas Rao">
+                        <i class="bi bi-telephone-fill"></i>
+                        Call Me
+                    </a>
+
+                    <a href="@whatsappUrl"
+                       target="_blank"
+                       rel="noopener"
+                       class="btn btn-whatsapp btn-lg">
+                        <i class="bi bi-whatsapp"></i>
+                        WhatsApp
+                    </a>
+
                 </div>
+@* 
+                <a href="@person.ResumeUrl"
+                   target="_blank"
+                   rel="noopener"
+                   class="resume-link">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                    View Resume
+                    <i class="bi bi-arrow-up-right"></i>
+                </a> *@
+
             </div>
 
-            <div class="col-lg-4 pt-5 mt-4 mt-lg-0 reveal">
-                <div class="profile-terminal">
-                    <div class="terminal-top">
-                        <span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span>
-                        <span class="ms-auto terminal-title">@content.Hero.TerminalTitle</span>
+
+            <!-- RIGHT -->
+            <div class="col-lg-5 reveal">
+
+                <div class="hero-visual">
+
+                    <div class="profile-photo-card">
+
+                        <img src="~/images/Srinivas Profile.jpeg"
+                             alt="S Srinivas Rao - SQL Server Developer"
+                             class="profile-photo"
+                             loading="eager" />
+
+                       @*  <div class="profile-available">
+                            <span class="status-dot"></span>
+                            Available for opportunities
+                        </div> *@
+
+                        <div class="profile-tech">
+                            SQL · AZURE · DATA
+                        </div>
+
                     </div>
-                    <div class="terminal-body">
+
+
+                    <div class="floating-terminal">
+
+                        <div class="terminal-top">
+
+                            <div class="terminal-controls">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <span class="terminal-title">
+                                profile.sql
+                            </span>
+
+                        </div>
+
+                        <div class="terminal-body">
+
 <pre><span class="sql-key">SELECT</span>
-    <span class="sql-name">'@person.FullName'</span> <span class="sql-key">AS</span> Developer,
-    <span class="sql-name">'@(person.YearsExperience) Years'</span> <span class="sql-key">AS</span> Experience,
-    <span class="sql-name">'SQL Server'</span> <span class="sql-key">AS</span> PrimaryStack,
-    <span class="sql-name">'Azure Data Services'</span> <span class="sql-key">AS</span> CloudStack
+    Developer,
+    Experience,
+    PrimaryStack
 <span class="sql-key">FROM</span> CareerProfile
-<span class="sql-key">WHERE</span> Availability = <span class="sql-name">'Open'</span>;</pre>
-                        <div class="query-result">
-                            <span>&#10003; Query executed successfully</span>
-                            <strong>@content.Hero.TerminalResult</strong>
+<span class="sql-key">WHERE</span>
+    Availability = <span class="sql-name">'Open'</span>;</pre>
+
+                            <div class="query-result">
+                                <span>
+                                    ✓ Query executed successfully
+                                </span>
+
+                                <strong>
+                                    3+ Years Experience
+                                </strong>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="stats-grid mt-3">
-                    @foreach (var stat in content.Hero.Stats)
-                    {
-                        <div><strong>@stat.Value</strong><small>@stat.Label</small></div>
-                    }
-                </div>
             </div>
         </div>
+        <!-- TECH PROOF BAR -->
+        <div class="hero-proof-bar reveal">
+
+            <div>
+                <strong>3+</strong>
+                <span>Years Experience</span>
+            </div>
+
+            <div>
+                <strong>SQL</strong>
+                <span>Server Development</span>
+            </div>
+
+            <div>
+                <strong>Azure</strong>
+                <span>Data Services</span>
+            </div>
+
+            <div>
+                <strong>BI</strong>
+                <span>Reporting & Analytics</span>
+            </div>
+
+        </div>
+
     </div>
+
 </section>
 
 <section id="about" class="section section-light">
@@ -314,7 +426,7 @@
                 <a class="contact-action email" href="mailto:@person.Email">
                     <i class="bi bi-envelope"></i><span><small>EMAIL ME</small><b>@person.Email</b></span><i class="bi bi-arrow-up-right"></i>
                 </a>
-                <a class="contact-action phone" href="tel:+@person.PhoneE164">
+                <a class="contact-action phone" href="@telUrl">
                     <i class="bi bi-telephone"></i><span><small>CALL</small><b>@person.PhoneDisplay</b></span><i class="bi bi-arrow-up-right"></i>
                 </a>
             </div>
