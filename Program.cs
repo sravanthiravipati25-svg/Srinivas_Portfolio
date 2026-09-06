@@ -18,8 +18,7 @@ builder.Services.AddDataProtection()
 builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection("EmailSettings"));
 
-builder.Services.AddScoped<IEmailService, EmailService>();
-
+builder.Services.AddHttpClient<IEmailService, EmailService>();
 builder.Services.AddSingleton<IPortfolioContentService, PortfolioContentService>();
 
 // Forwarded headers for Render
