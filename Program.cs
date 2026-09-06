@@ -7,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 // MVC
 builder.Services.AddControllersWithViews();
 
-// Persist antiforgery/data-protection keys
 var keysPath = Path.Combine(builder.Environment.ContentRootPath, "keys");
 Directory.CreateDirectory(keysPath);
 
@@ -21,7 +20,6 @@ builder.Services.Configure<EmailSettings>(
 
 builder.Services.AddScoped<IEmailService, EmailService>();
 
-// Portfolio content (loaded once from Data/portfolio-content.json)
 builder.Services.AddSingleton<IPortfolioContentService, PortfolioContentService>();
 
 // Forwarded headers for Render
